@@ -1,17 +1,22 @@
 import React from 'react';
 import { Tier } from './Tier.jsx';
 import viewers from './data.js';
+import { DndProvider } from 'react-dnd'
+import Backend from 'react-dnd-html5-backend'
 
 
 //define board. Board consists of tiers. 
 
 export function Board() {
     return (
+        <DndProvider backend={Backend}>
+
         <div id="board" class="columns" style={{padding: "1.5%"}}>
             {
                 renderTiers()
             }
         </div >
+        </DndProvider>
     )
 }
 

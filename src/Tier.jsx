@@ -2,16 +2,17 @@ import React from 'react';
 import { Viewer } from './Viewer'
 import { columns } from "react-bulma-components";
 import viewers from './data.js'
+import { ItemTypes } from './Constants';
+import { useDrop } from 'react-dnd';
+
 
 //return tier with viewers in data object where tier matches
 export function Tier(props) {
     return (<div class="column panel">
         <h1 class="panel-heading has-text-centered is-size-3"><strong>{props.name} tier</strong></h1>
-        <div class="panel-block">
             {
                 generateViewers(props.name)
             }
-        </div>
     </div>
     )
 
@@ -28,6 +29,10 @@ function generateViewers(tierName) {
             }
         })
     )
+
+}
+
+function reAssignTier(tier) {
 
 }
 

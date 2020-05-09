@@ -8,5 +8,10 @@ const viewers = [{
     profile_image_url: "https://static-cdn.jtvnw.net/jtv_user_pictures/b925410e-ae3b-44f5-8560-44a2b19c0e0d-profile_image-300x300.png",
     tier: "b"
 }
+, {
+    login: "nobo0dy_ ",
+    profile_image_url: "https://static-cdn.jtvnw.net/jtv_user_pictures/013ad0fe-ba9e-4b29-9a9d-9d23989cfccc-profile_image-300x300.png",
+    tier: "b"
+}
 ]
 export default viewers
