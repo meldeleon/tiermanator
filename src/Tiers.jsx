@@ -1,12 +1,23 @@
-import React from 'react';
-import { Tier } from './Tier.jsx';
-import viewers from './data.js';
-import { DndProvider } from 'react-dnd'
-import Backend from 'react-dnd-html5-backend'
+import React from "react";
+import { columns } from "react-bulma-components";
+import Tier from "./Tier";
 
+//define board. Board consists of tiers.
 
-//define board. Board consists of tiers. 
+function Tiers({ columns, viewerList }) {
+  console.table(viewerList);
+  return columns.map((column) => {
+    const viewersInTier = viewerList.filter((viewer) => viewer.tier === column);
+    return (
+      <div className="columns">
+        <Tier key={column} name={column} viewersInTier={viewersInTier} />
+      </div>
+    );
+  });
+}
+export default Tiers;
 
+/*BAD CODE FOR BAD PEOPLE
 export function Board() {
     return (
         <DndProvider backend={Backend}>
@@ -48,3 +59,4 @@ function generateTiers() {
     })
     return currentTiers
 }
+*/

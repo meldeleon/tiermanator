@@ -1,21 +1,31 @@
-import React from 'react';
-import { ItemTypes } from './Constants.js';
-
+import React from "react";
+import { card } from "react-bulma-components";
+import { Draggable } from "react-beautiful-dnd";
 //define a viewer card. Viewer card consists of twitch name and profile picture.
-export function Viewer(props) {
+
+export function Viewer({ name, image, index }) {
   return (
-    <div class="card panel-block" 
-    style={{
-      width:"100%", }}>
-      <div class="card-content">
-        <div class="media-left">
-          <img class="profile-pic" src={`${(props.image)}`}></img>
-          <span class="title is-6 viewer-name">{props.name}</span>
+    <Draggable draggableId={name} index={index}>
+      {(provided, snapshot) => (
+        <div
+          ref={provided.innerRef}
+          className="card panel-block"
+          style={{
+            width: "100%",
+          }}
+          {...provided.draggableProps}
+          {...provided.dragHandleProps}
+        >
+          <div className="card-content">
+            <div className="media-left">
+              <img className="profile-pic" src={`${image}`}></img>
+              <span className="title is-6 viewer-name">{name}</span>
+            </div>
+          </div>
         </div>
-      </div>
-    </div> 
+      )}
+    </Draggable>
   );
 }
 
-export default Viewer
-
+export default Viewer;

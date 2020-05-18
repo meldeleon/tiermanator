@@ -1,38 +1,33 @@
-import React from 'react';
-import { Viewer } from './Viewer'
-import { columns } from "react-bulma-components";
-import viewers from './data.js'
-import { ItemTypes } from './Constants';
-import { useDrop } from 'react-dnd';
+import React, { Profiler } from "react";
+import { column } from "react-bulma-components";
+import { Droppable } from "react-beautiful-dnd";
+import { Viewer } from "./Viewer";
 
-
-//return tier with viewers in data object where tier matches
-export function Tier(props) {
-    return (<div class="column panel">
-        <h1 class="panel-heading has-text-centered is-size-3"><strong>{props.name} tier</strong></h1>
-            {
-                generateViewers(props.name)
-            }
-    </div>
-    )
-
+function Tier({ name, viewersInTier }) {
+  console.table(name);
+  return (
+    <Droppable droppableId={name} type="TIER">
+      {(provided, snapshot) => (
+        <div
+          ref={provided.innerRef}
+          className="column is-centered"
+          {...provided.droppableProps}
+        >
+          <div className="title is-1">{name}</div>
+          {viewersInTier.map((viewer) => {
+            return (
+              <Viewer
+                name={viewer.login}
+                image={viewer.profile_image_url}
+                key={viewer.login}
+              />
+            );
+          })}
+          {provided.placeholder}
+        </div>
+      )}
+    </Droppable>
+  );
 }
 
-//return arrway of viewers in a specific tier
-function generateViewers(tierName) {
-    return (
-        viewers.map(item => {
-            if (item.tier === tierName) {
-                return (
-                    <Viewer name={item.login} image={item.profile_image_url} />
-                )
-            }
-        })
-    )
-
-}
-
-function reAssignTier(tier) {
-
-}
-
+export default Tier;
