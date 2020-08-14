@@ -1,22 +1,28 @@
 export const viewers = [
   {
-    login: "matthewormatt",
+    login: "anthonywritescode",
     profile_image_url:
-      "https://static-cdn.jtvnw.net/jtv_user_pictures/f03d0e6b-de8e-4116-bfcf-849f41546150-profile_image-300x300.png",
+      "https://static-cdn.jtvnw.net/jtv_user_pictures/34369a28-5fda-41b2-b0aa-22f0b77a7baa-profile_image-150x150.png",
     //static value of "c"
     tier: "c",
   },
   {
-    login: "insensitivelees",
+    login: "dota2attitude",
     profile_image_url:
-      "https://static-cdn.jtvnw.net/jtv_user_pictures/b925410e-ae3b-44f5-8560-44a2b19c0e0d-profile_image-300x300.png",
+      "https://static-cdn.jtvnw.net/jtv_user_pictures/0a012bb9-2161-47fe-9a13-b9c465c12ab2-profile_image-150x150.png",
     tier: "b",
   },
   {
-    login: "nobo0dy_ ",
+    login: "mewtru",
     profile_image_url:
-      "https://static-cdn.jtvnw.net/jtv_user_pictures/013ad0fe-ba9e-4b29-9a9d-9d23989cfccc-profile_image-300x300.png",
-    tier: "b",
+      "https://static-cdn.jtvnw.net/jtv_user_pictures/0804d2ae-7909-410f-8304-8a44c5d03850-profile_image-150x150.png",
+    tier: "a",
+  },
+  {
+    login: "vapejuicejordan",
+    profile_image_url:
+      "https://static-cdn.jtvnw.net/jtv_user_pictures/52071e17-3edd-4927-bcd5-147a3a11d365-profile_image-150x150.png",
+    tier: "trash",
   },
 ];
 
@@ -26,7 +32,11 @@ const tiers = viewers.map((item) => {
 });
 
 //remove duplicates
-export const uniqueTiers = Array.from(new Set(tiers));
+export const uniqueTiers = Array.from(new Set(tiers)).sort();
 
 //export constants for use in app
 
+export const boardState = {
+  currentViewers: viewers,
+  currentTiers: uniqueTiers,
+};
