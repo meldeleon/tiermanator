@@ -1,20 +1,19 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif,
-    sans-serif;
+  width: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, Calibri, Candara, Segoe,
+    "Segoe UI", Optima, Arial, sans-serif, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+.columns {
+}
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
 
-.container {
-  padding: 2px 16px;
-  position: relative;
-}
 .viewer-name {
   padding: 6px;
 }
@@ -24,14 +23,9 @@ code {
   width: 28px;
   height: 28px;
   border-radius: 50%;
-  border-style:solid;
+  border-style: solid;
   border-width: 1px;
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
-  
-}
-
-.twitchDisplayName{
-
 }

@@ -1,6 +1,6 @@
-import React from "react";
-import { card } from "react-bulma-components";
-import { Draggable } from "react-beautiful-dnd";
+import React from "react"
+import { card } from "react-bulma-components"
+import { Draggable } from "react-beautiful-dnd"
 //define a viewer card. Viewer card consists of twitch name and profile picture.
 
 export function Viewer({ name, image, index }) {
@@ -25,7 +25,7 @@ export function Viewer({ name, image, index }) {
         </div>
       )}
     </Draggable>
-  );
+  )
 }
 
-export default Viewer;
+export default Viewer

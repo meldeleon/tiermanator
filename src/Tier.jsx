@@ -1,10 +1,9 @@
-import React, { Profiler } from "react";
-import { Column } from "react-bulma-components";
-import { Droppable } from "react-beautiful-dnd";
-import { Viewer } from "./Viewer";
+import React, { Profiler } from "react"
+import { Droppable } from "react-beautiful-dnd"
+import { Viewer } from "./Viewer"
 
 function Tier({ name, viewersInTier }) {
-  console.table(name);
+  console.table(name)
   return (
     <Droppable droppableId={name} type="TIER">
       {(provided, snapshot) => (
@@ -22,13 +21,13 @@ function Tier({ name, viewersInTier }) {
                 key={viewer.login}
                 index={index}
               />
-            );
+            )
           })}
           {provided.placeholder}
         </div>
       )}
     </Droppable>
-  );
+  )
 }
 
-export default Tier;
+export default Tier
