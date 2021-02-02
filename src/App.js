@@ -2,6 +2,8 @@ import React from "react"
 import { boardState } from "./data.js"
 import Tiers from "./Tiers"
 import { DragDropContext } from "react-beautiful-dnd"
+import { data } from "./db.js"
+console.log(data)
 
 class App extends React.Component {
   constructor(props) {
@@ -10,12 +12,14 @@ class App extends React.Component {
   }
   onDragEnd = (result) => {
     const { destination, source, draggableId } = result
-    console.log(this.state)
+    console.log(destination)
+    console.table(this.state)
     // if there is no destination do nothing
     if (!destination) {
       console.log("viewer carried outside of droppable area")
       return
     }
+
     //if position does not change also do nothing
     if (
       destination.droppableId === source.droppableId &&
@@ -23,20 +27,13 @@ class App extends React.Component {
     ) {
       console.log("viewer position unchanged")
       return
+    } else {
+      // if the tier changes we want to change the value of the viewer's tier property to the new destination tier.
+      // starting tier source.droppableId; ending tier destination.droppableId
+      //destroy the value of tier and replaice it with the new value
+      //destroy the value of the index, and replace it with new value
+      // if the index changes within the tier we want change the index value of the viewer when generating tier.
     }
-
-    // if the tier changes we want to change the value of the viewer's tier property to the new destination tier.
-    // starting tier source.droppableId; ending tier destination.droppableId
-    const tier = this.state.currentTiers.find((element) => {
-      return element.id === source.droppableId
-    })
-    console.log(source, this.state.currentTiers, tier)
-
-    //destroy the value of tier and replaice it with the new value
-
-    //destroy the value of the index, and replace it with new value
-
-    // if the index changes within the tier we want change the index value of the viewer when generating tier.
   }
   render() {
     return (
@@ -51,5 +48,4 @@ class App extends React.Component {
     )
   }
 }
-
 export default App

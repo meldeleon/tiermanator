@@ -5,17 +5,17 @@ body {
     "Segoe UI", Optima, Arial, sans-serif, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-size: small !important;
 }
-.columns {
-}
-
-code {
+.code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+.card {
+}
 
 .viewer-name {
-  padding: 6px;
+  padding: 2px;
 }
 
 .profile-pic {

@@ -11,7 +11,7 @@ export const viewers = [
     login: "dota2attitude",
     profile_image_url:
       "https://static-cdn.jtvnw.net/jtv_user_pictures/0a012bb9-2161-47fe-9a13-b9c465c12ab2-profile_image-150x150.png",
-    tier: "b",
+    tier: "d",
     index: 0,
   },
   {

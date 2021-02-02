@@ -1,3 +1,10 @@
+## TO-DO
+
+- Create a new state with on drag-end function
+- Update state based on drag-end container + indext
+- Make a dynamo DB call to update item.
+- Reload?????? ap?? sdpewjnfes??? DO SOMETHING HERE TO MAKE STATE APPEAR IN FRONT END???
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
