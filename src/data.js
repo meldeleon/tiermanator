@@ -44,7 +44,8 @@ export const viewers1 = [
   },
 ]
 
-/*//get list of tiers
+/*
+//get list of tiers
 const tiers = viewers.map((item) => {
   return item.tier
 })
@@ -53,7 +54,7 @@ const tiers = viewers.map((item) => {
 export const uniqueTiers = Array.from(new Set(tiers)).sort()
 
 //export constants for use in app
-
+console.log(viewers)
 export const boardState = {
   currentViewers: viewers,
   currentTiers: uniqueTiers,

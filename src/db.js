@@ -1,4 +1,7 @@
 import { viewers1 } from "./data.js"
+const fs = require("fs")
+const promisify = require("util").promisify
+
 var AWS = require("aws-sdk")
 const dynamodb = new AWS.DynamoDB({
   region: "us-west-2",
@@ -11,32 +14,48 @@ var params = {
   AttributesToGet: ["login", "index", "profile_image_url", "tier"],
 }
 
-var viewers = []
+// promisify dynamodb.scan(param, callback(err, data)) => new function that instead of having a callback shape, returns a promise instead.
 
-dynamodb.scan(params, onScan)
+let scanPromise = promisify(dynamodb.scan).bind(dynamodb)
+/*.bind 
+ .scan is a member function on the prototype of dynamoDB, function reference to the prototype. This is an unbound member function. Doesn't have a this (doesn't know what object it is attached to). Reattaching itself to dynamodb object.
+ */
+//pour some SYNTAX SUGAR ON ME.
 
-function onScan(err, data) {
-  if (err) {
-    console.log(err, err.stack)
-  } else {
-    console.log("scan succeeded")
-    let convertedData = data["Items"].map((item) =>
-      viewers.push(AWS.DynamoDB.Converter.unmarshall(item))
-    )
+export async function getViewers() {
+  let results = await scanPromise(params)
+  console.log(results)
+  let convertedData = results["Items"].map((item) =>
+    AWS.DynamoDB.Converter.unmarshall(item)
+  )
+  let tiers = convertedData.map((item) => {
+    console.log(item.tier)
+    return item.tier
+  })
+  console.log(tiers)
+  let uniqueTiers = Array.from(new Set(tiers)).sort()
+  let localBoardstate = {
+    currentViewers: convertedData,
+    currentTiers: uniqueTiers,
   }
+  console.log(localBoardstate)
+  return localBoardstate
 }
 
-//get list of tiers
-let tiers = viewers.map((item) => {
+/*
+getViewers()
+//loading code:
+let tiers = viewers1.map((item) => {
   console.log(item.tier)
   return item.tier
 })
-console.log(viewers)
-console.log(viewers1)
-export const uniqueTiers = Array.from(new Set(tiers)).sort()
-
-//export constants for use in app
+const uniqueTiers = Array.from(new Set(tiers)).sort()
 export const boardState = {
   currentViewers: viewers1,
   currentTiers: uniqueTiers,
 }
+//export const boardState = getViewers()
+
+console.log(uniqueTiers)
+console.log(boardState)
+*/

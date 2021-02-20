@@ -1,13 +1,18 @@
 import React from "react"
 import Tiers from "./Tiers"
 import { DragDropContext } from "react-beautiful-dnd"
-import { boardState } from "./db.js"
-var AWS = require("aws-sdk")
-
+import { getViewers } from "./db.js"
+console.log(getViewers)
 class App extends React.Component {
   constructor(props) {
     super(props)
-    this.state = { ...boardState }
+    this.state = {
+      currentTiers: [],
+      currentViewers: [],
+    }
+  }
+  async componentDidMount() {
+    this.setState(await getViewers())
   }
   onDragEnd = (result) => {
     const { destination, source, draggableId } = result
