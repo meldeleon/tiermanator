@@ -16,10 +16,13 @@ export function Viewer({ name, image, index }) {
           {...provided.draggableProps}
           {...provided.dragHandleProps}
         >
+          <div className="card-header">
+            <p className="card-header-title title is-5">{index + 1}</p>
+          </div>
           <div className="card-content">
-            <div className="media-left">
-              <img className="profile-pic" src={`${image}`}></img>
-              <span className="title is-6 viewer-name">{name}</span>
+            <div className="media">
+              <img className="card-image profile-pic" src={`${image}`}></img>
+              <span className="title is-5 viewer-name">{name}</span>
             </div>
           </div>
         </div>

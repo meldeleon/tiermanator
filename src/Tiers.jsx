@@ -12,7 +12,18 @@ function Tiers({ columns, viewerList }) {
         return a.index - b.index
       })
     //console.table(viewersInTier)
-    return <Tier key={column} name={column} viewersInTier={viewersInTier} />
+    if (column.index % 2 === 0) {
+      return <Tier key={column} name={column} viewersInTier={viewersInTier} />
+    } else {
+      return (
+        <Tier
+          key={column}
+          name={column}
+          viewersInTier={viewersInTier}
+          className={"lightblue"}
+        />
+      )
+    }
   })
 }
 export default Tiers

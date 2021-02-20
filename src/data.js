@@ -1,4 +1,4 @@
-export const viewers = [
+export const viewers1 = [
   {
     login: "anthonywritescode",
     profile_image_url:
@@ -44,7 +44,7 @@ export const viewers = [
   },
 ]
 
-//get list of tiers
+/*//get list of tiers
 const tiers = viewers.map((item) => {
   return item.tier
 })
@@ -58,3 +58,4 @@ export const boardState = {
   currentViewers: viewers,
   currentTiers: uniqueTiers,
 }
+*/

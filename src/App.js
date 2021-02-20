@@ -1,9 +1,8 @@
 import React from "react"
-import { boardState } from "./data.js"
 import Tiers from "./Tiers"
 import { DragDropContext } from "react-beautiful-dnd"
-import { data } from "./db.js"
-console.log(data)
+import { boardState } from "./db.js"
+var AWS = require("aws-sdk")
 
 class App extends React.Component {
   constructor(props) {

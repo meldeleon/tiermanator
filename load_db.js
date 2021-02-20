@@ -10,17 +10,13 @@ var docClient = new AWS.DynamoDB.DocumentClient()
 console.log("Importing users into DynamoDB. Please wait.")
 
 let parameters = {
-  TableName: "juicebot_commands",
+  TableName: "viewers",
   Item: {
-    aliases: [],
-    trigger: "!codeinthedark",
-    response:
-      "Code in the Dark is a programming challenge where participants have to clone popular websites in css and HTML without rendering the results.",
-    type: "simple",
-    permission: "chat",
-    requiredArguments: 0,
-    autoTrigger: 20,
-    timeout: 0,
+    login: "beldathas",
+    index: 0,
+    profile_image_url:
+      "https://static-cdn.jtvnw.net/user-default-pictures-uv/13e5fa74-defa-11e9-809c-784f43822e80-profile_image-150x150.png",
+    tier: "d",
   },
 }
 
