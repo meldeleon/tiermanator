@@ -5,7 +5,7 @@ import { Draggable } from "react-beautiful-dnd"
 
 export function Viewer({ name, image, index }) {
   return (
-    <Draggable draggableId={name} index={index}>
+    <Draggable draggableId={name} index={index} image_url={image}>
       {(provided, snapshot) => (
         <div
           ref={provided.innerRef}

@@ -34,6 +34,10 @@ export async function getViewers() {
   })
   console.log(tiers)
   let uniqueTiers = Array.from(new Set(tiers)).sort()
+  const checkForS = (item) => item === "s"
+  let sIndex = uniqueTiers.findIndex(checkForS)
+  indexChange(uniqueTiers, sIndex, 0)
+
   let localBoardstate = {
     currentViewers: convertedData,
     currentTiers: uniqueTiers,
@@ -42,20 +46,44 @@ export async function getViewers() {
   return localBoardstate
 }
 
-/*
-getViewers()
-//loading code:
-let tiers = viewers1.map((item) => {
-  console.log(item.tier)
-  return item.tier
-})
-const uniqueTiers = Array.from(new Set(tiers)).sort()
-export const boardState = {
-  currentViewers: viewers1,
-  currentTiers: uniqueTiers,
+function indexChange(arr, oldIndex, newIndex) {
+  if (newIndex >= arr.length) {
+    let k = newIndex - arr.length + 1
+    while (k--) {
+      arr.push(undefined)
+    }
+  }
+  arr.splice(newIndex, 0, arr.splice(oldIndex, 1)[0])
+  console.log(arr)
+  return arr
 }
-//export const boardState = getViewers()
 
-console.log(uniqueTiers)
-console.log(boardState)
-*/
+var docClient = new AWS.DynamoDB.DocumentClient({
+  region: "us-west-2",
+  accessKeyId: process.env.REACT_APP_AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.REACT_APP_AWS_SECRET_ACCESS_KEY,
+})
+
+export function pushViewer(viewerId, rank, column) {
+  let parameters = {
+    TableName: "viewers",
+    Key: viewerId,
+    UpdateExpression: "set place = :r, tier = :c",
+    ExpressionAttributeValues: {
+      ":r": rank,
+      ":c": column,
+    },
+    ReturnValues: "UPDATED_NEW",
+  }
+  docClient.update(parameters, function (err, data) {
+    if (err) {
+      console.error(
+        "Unable to update viewer",
+        ". Error JSON:",
+        JSON.stringify(err, null, 2)
+      )
+    } else {
+      console.log("PutItem succeeded")
+    }
+  })
+}

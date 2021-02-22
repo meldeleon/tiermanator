@@ -1,8 +1,8 @@
 import React from "react"
 import Tiers from "./Tiers"
 import { DragDropContext } from "react-beautiful-dnd"
-import { getViewers } from "./db.js"
-console.log(getViewers)
+import { getViewers, pushViewer } from "./db.js"
+console.log(pushViewer)
 class App extends React.Component {
   constructor(props) {
     super(props)
@@ -16,27 +16,38 @@ class App extends React.Component {
   }
   onDragEnd = (result) => {
     const { destination, source, draggableId } = result
-    console.log(destination)
-    console.table(this.state)
+    console.log(result)
+    const draggableIndex = this.state.currentViewers.findIndex(
+      (x) => x.login === draggableId
+    )
+    //update state
+    let newState = { ...this.state }
+    if (destination) {
+      newState.currentViewers[draggableIndex].place = destination.index
+      newState.currentViewers[draggableIndex].tier = destination.droppableId
+      this.setState({
+        currentTiers: this.state.currentTiers,
+        currentViewers: newState.currentViewers,
+      })
+      console.table(this.state)
+      //push to DB
+      console.log("place: " + destination.index)
+      pushViewer(draggableId, destination.index, destination.droppableId)
+    }
+
     // if there is no destination do nothing
-    if (!destination) {
+    else if (!destination) {
       console.log("viewer carried outside of droppable area")
-      return
     }
 
     //if position does not change also do nothing
-    if (
+    else if (
       destination.droppableId === source.droppableId &&
-      destination.index === source.index
+      destination.place === source.place
     ) {
       console.log("viewer position unchanged")
-      return
     } else {
-      // if the tier changes we want to change the value of the viewer's tier property to the new destination tier.
-      // starting tier source.droppableId; ending tier destination.droppableId
-      //destroy the value of tier and replaice it with the new value
-      //destroy the value of the index, and replace it with new value
-      // if the index changes within the tier we want change the index value of the viewer when generating tier.
+      console.log("last edge case, check code")
     }
   }
   render() {
