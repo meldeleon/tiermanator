@@ -67,7 +67,9 @@ var docClient = new AWS.DynamoDB.DocumentClient({
 export function pushViewer(viewerId, rank, column) {
   let parameters = {
     TableName: "viewers",
-    Key: viewerId,
+    Key: {
+      login: viewerId,
+    },
     UpdateExpression: "set place = :r, tier = :c",
     ExpressionAttributeValues: {
       ":r": rank,
@@ -83,7 +85,7 @@ export function pushViewer(viewerId, rank, column) {
         JSON.stringify(err, null, 2)
       )
     } else {
-      console.log("PutItem succeeded")
+      console.log("Updateitem succeeded")
     }
   })
 }
