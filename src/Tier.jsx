@@ -13,13 +13,13 @@ function Tier({ name, viewersInTier }) {
           {...provided.droppableProps}
         >
           <div className="title is-1 has-text-centered">{name}</div>
-          {viewersInTier.map((viewer, index) => {
+          {viewersInTier.map((viewer) => {
             return (
               <Viewer
                 name={viewer.login}
                 image={viewer.profile_image_url}
+                index={viewer.place}
                 key={viewer.login}
-                index={index}
               />
             )
           })}

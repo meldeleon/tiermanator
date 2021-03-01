@@ -15,21 +15,63 @@ class App extends React.Component {
     this.setState(await getViewers())
   }
   onDragEnd = (result) => {
-    const { destination, source, draggableId } = result
+    let { destination, source, draggableId } = result
     console.log(result)
     const draggableIndex = this.state.currentViewers.findIndex(
       (x) => x.login === draggableId
     )
+    let movedUp = this.state.currentViewers
+      .map((viewer, index) => {
+        if (
+          viewer.tier === destination.droppableId &&
+          viewer.place === destination.index
+        ) {
+          return index
+        }
+      })
+      .filter((viewer) => {
+        return viewer !== undefined
+      })
+
+    let movedDown = this.state.currentViewers
+      .map((viewer, index) => {
+        if (
+          viewer.tier === destination.droppableId &&
+          viewer.place > destination.index
+        ) {
+          return index
+        }
+      })
+      .filter((viewer) => {
+        return viewer !== undefined
+      })
+    function updateTierOrder(state, movedUp, movedDown) {
+      let viewers = this.state.currentViewers
+      //move up one
+      viewers[movedUp[0]].place -= 1
+      // move everything else down
+      movedDown.map((x) => {
+        viewers[x].place = viewers[x].place + 1
+      })
+    }
+    console.log(this.state.currentViewers)
     //update state
     let newState = { ...this.state }
     if (destination) {
+      console.log(
+        "original index: " + this.state.currentViewers[draggableIndex].place
+      )
+      console.log("destination index: " + destination.index)
+
       newState.currentViewers[draggableIndex].place = destination.index
       newState.currentViewers[draggableIndex].tier = destination.droppableId
+
+      //update state
       this.setState({
         currentTiers: this.state.currentTiers,
         currentViewers: newState.currentViewers,
       })
-      console.table(this.state)
+
       //push to DB
       console.log("place: " + destination.index)
       pushViewer(draggableId, destination.index, destination.droppableId)

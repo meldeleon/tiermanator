@@ -5,7 +5,7 @@ import { Draggable } from "react-beautiful-dnd"
 
 export function Viewer({ name, image, index }) {
   return (
-    <Draggable draggableId={name} index={index} image_url={image}>
+    <Draggable draggableId={name} index={index} image_url={image} key={name}>
       {(provided, snapshot) => (
         <div
           ref={provided.innerRef}
@@ -17,12 +17,12 @@ export function Viewer({ name, image, index }) {
           {...provided.dragHandleProps}
         >
           <div className="card-header">
-            <p className="card-header-title title is-5">{index + 1}</p>
+            <p className="card-header-title title is-5">{index}</p>
           </div>
           <div className="card-content">
             <div className="media">
               <img className="card-image profile-pic" src={`${image}`}></img>
-              <span className="title is-5 viewer-name">{name}</span>
+              <span className="viewer-name">{name}</span>
             </div>
           </div>
         </div>

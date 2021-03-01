@@ -9,7 +9,7 @@ function Tiers({ columns, viewerList }) {
     const viewersInTier = viewerList
       .filter((viewer) => viewer.tier === column)
       .sort(function (a, b) {
-        return a.index - b.index
+        return a.place - b.place
       })
     //console.table(viewersInTier)
     if (column.index % 2 === 0) {

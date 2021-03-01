@@ -11,7 +11,7 @@ const dynamodb = new AWS.DynamoDB({
 
 var params = {
   TableName: "viewers",
-  AttributesToGet: ["login", "index", "profile_image_url", "tier"],
+  AttributesToGet: ["login", "place", "profile_image_url", "tier"],
 }
 
 // promisify dynamodb.scan(param, callback(err, data)) => new function that instead of having a callback shape, returns a promise instead.
@@ -64,7 +64,7 @@ var docClient = new AWS.DynamoDB.DocumentClient({
   secretAccessKey: process.env.REACT_APP_AWS_SECRET_ACCESS_KEY,
 })
 
-export function pushViewer(viewerId, rank, column) {
+export function pushViewer(viewerId, place, column) {
   let parameters = {
     TableName: "viewers",
     Key: {
@@ -72,7 +72,7 @@ export function pushViewer(viewerId, rank, column) {
     },
     UpdateExpression: "set place = :r, tier = :c",
     ExpressionAttributeValues: {
-      ":r": rank,
+      ":r": place,
       ":c": column,
     },
     ReturnValues: "UPDATED_NEW",
