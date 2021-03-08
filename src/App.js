@@ -16,13 +16,13 @@ class App extends React.Component {
   }
   onDragEnd = (result) => {
     let { destination, source, draggableId } = result
-    console.log(result)
-    console.log(destination)
     const draggableIndex = this.state.currentViewers.findIndex(
       (x) => x.login === draggableId
     )
+
     let movedUp = this.state.currentViewers
       .map((viewer, index) => {
+        //TODO: CHECK IF WE ARE DRAGGING TO THE LAST POSITION.
         if (
           //ignore person being dragged
           viewer.tier === source.droppableId &&
