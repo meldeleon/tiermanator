@@ -17,34 +17,30 @@ class App extends React.Component {
   onDragEnd = (result) => {
     let { destination, source, draggableId } = result
     console.log(result)
+    console.log(destination)
     const draggableIndex = this.state.currentViewers.findIndex(
       (x) => x.login === draggableId
     )
     let movedUp = this.state.currentViewers
       .map((viewer, index) => {
         if (
+          //ignore person being dragged
+          viewer.tier === source.droppableId &&
+          viewer.place === source.index
+        ) {
+        } else if (
+          //return an array of any viewers in the same tier with a lower index
           viewer.tier === destination.droppableId &&
-          viewer.place === destination.index
+          viewer.place <= destination.index
         ) {
           return index
         }
       })
       .filter((viewer) => {
+        //remove undefined users for clean array
         return viewer !== undefined
       })
-
-    let movedDown = this.state.currentViewers
-      .map((viewer, index) => {
-        if (
-          viewer.tier === destination.droppableId &&
-          viewer.place > destination.index
-        ) {
-          return index
-        }
-      })
-      .filter((viewer) => {
-        return viewer !== undefined
-      })
+    console.log(movedUp)
     function updateTierOrder(state, movedUp, movedDown) {
       let viewers = this.state.currentViewers
       //move up one
@@ -62,10 +58,18 @@ class App extends React.Component {
         "original index: " + this.state.currentViewers[draggableIndex].place
       )
       console.log("destination index: " + destination.index)
-
+      //updated the dragged item
       newState.currentViewers[draggableIndex].place = destination.index
       newState.currentViewers[draggableIndex].tier = destination.droppableId
+      // move up viewers
 
+      movedUp.forEach((x) => {
+        //update state
+        let current = newState.currentViewers[x]
+        current.place -= 1
+        //push to db
+        pushViewer(current.login, current.place, current.tier)
+      })
       //update state
       this.setState({
         currentTiers: this.state.currentTiers,
@@ -74,6 +78,7 @@ class App extends React.Component {
 
       //push to DB
       console.log("place: " + destination.index)
+      //push dragged viewer
       pushViewer(draggableId, destination.index, destination.droppableId)
     }
 

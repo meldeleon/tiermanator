@@ -11,11 +11,11 @@ console.log("Importing users into DynamoDB. Please wait.")
 let parameters = {
   TableName: "viewers",
   Item: {
-    login: "theendlessriver",
+    login: "juiceboxhero",
     place: 0,
     profile_image_url:
-      "https://static-cdn.jtvnw.net/jtv_user_pictures/theendlessriver-profile_image-c2bc121e2304c99e-300x300.jpeg",
-    tier: "c",
+      "https://static-cdn.jtvnw.net/jtv_user_pictures/6892ddf7-e97e-4909-9e52-1184156e5058-profile_image-300x300.jpg",
+    tier: "unranked",
   },
 }
 

@@ -22,7 +22,7 @@ export function Viewer({ name, image, index }) {
           <div className="card-content">
             <div className="media">
               <img className="card-image profile-pic" src={`${image}`}></img>
-              <span className="viewer-name">{name}</span>
+              <span className="viewer-name is-size-5">{name}</span>
             </div>
           </div>
         </div>
