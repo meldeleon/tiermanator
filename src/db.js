@@ -17,6 +17,12 @@ var params = {
 
 let scanPromise = promisify(dynamodb.scan).bind(dynamodb)
 
+//we expect this function to return a data object in the format of ./example.js
+export async function getViewers() {
+  let scanResults = await scanPromise(params)
+}
+
+/* OLD CODE
 export async function getViewers() {
   let results = await scanPromise(params)
   console.log(results)
@@ -57,6 +63,7 @@ function indexChange(arr, oldIndex, newIndex) {
   console.log(arr)
   return arr
 }
+*/
 
 var docClient = new AWS.DynamoDB.DocumentClient({
   region: "us-west-2",

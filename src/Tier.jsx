@@ -3,7 +3,8 @@ import { Droppable } from "react-beautiful-dnd"
 import { Viewer } from "./Viewer"
 
 function Tier({ name, viewersInTier }) {
-  //console.table(name)
+  console.log(name)
+  console.log(viewersInTier)
   return (
     <Droppable droppableId={name} type="TIER">
       {(provided, snapshot) => (

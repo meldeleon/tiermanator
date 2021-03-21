@@ -1,6 +1,6 @@
 import React from "react"
 import Tiers from "./Tiers"
-import { data1 } from "./example.js"
+import { data } from "./example.js"
 import { DragDropContext } from "react-beautiful-dnd"
 import { getViewers, pushViewer } from "./db.js"
 console.log(pushViewer)
@@ -8,7 +8,7 @@ class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      tiers: data1,
+      data,
     }
   }
   /*async componentDidMount() {
@@ -19,7 +19,7 @@ class App extends React.Component {
     return (
       <DragDropContext onDragEnd={this.onDragEnd}>
         <div id="board" className="columns" style={{ padding: "1.5%" }}>
-          <Tiers tiers={this.state} />
+          <Tiers columns={this.state} />
         </div>
       </DragDropContext>
     )
