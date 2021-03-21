@@ -1,4 +1,3 @@
-import { viewers1 } from "./data.js"
 const fs = require("fs")
 const promisify = require("util").promisify
 
@@ -17,10 +16,6 @@ var params = {
 // promisify dynamodb.scan(param, callback(err, data)) => new function that instead of having a callback shape, returns a promise instead.
 
 let scanPromise = promisify(dynamodb.scan).bind(dynamodb)
-/*.bind 
- .scan is a member function on the prototype of dynamoDB, function reference to the prototype. This is an unbound member function. Doesn't have a this (doesn't know what object it is attached to). Reattaching itself to dynamodb object.
- */
-//pour some SYNTAX SUGAR ON ME.
 
 export async function getViewers() {
   let results = await scanPromise(params)
@@ -28,19 +23,24 @@ export async function getViewers() {
   let convertedData = results["Items"].map((item) =>
     AWS.DynamoDB.Converter.unmarshall(item)
   )
-  let tiers = convertedData.map((item) => {
+  let tiersFromDb = convertedData.map((item) => {
     console.log(item.tier)
     return item.tier
   })
-  console.log(tiers)
-  let uniqueTiers = Array.from(new Set(tiers)).sort()
+  let uniqueTiers = Array.from(new Set(tiersFromDb)).sort()
   const checkForS = (item) => item === "s"
   let sIndex = uniqueTiers.findIndex(checkForS)
   indexChange(uniqueTiers, sIndex, 0)
+  let tiersToExport = {}
+  uniqueTiers.map((tier) => {
+    tiersToExport[tier] = []
+  })
+  convertedData.map((viewer) => {
+    tiersToExport[viewer.tier].push(viewer)
+  })
 
   let localBoardstate = {
-    currentViewers: convertedData,
-    currentTiers: uniqueTiers,
+    tiers: tiersToExport,
   }
   console.log(localBoardstate)
   return localBoardstate

@@ -3,8 +3,11 @@ import Tier from "./Tier"
 
 //define board. Board consists of tiers.
 
-function Tiers({ columns, viewerList }) {
-  //console.table(viewerList)
+function Tiers({ tiers }) {
+  return Object.keys(tiers).map(x => return x)
+
+
+
   return columns.map((column) => {
     const viewersInTier = viewerList
       .filter((viewer) => viewer.tier === column)
