@@ -2,7 +2,7 @@ const fs = require("fs")
 const promisify = require("util").promisify
 
 var AWS = require("aws-sdk")
-const dynamodb = new AWS.DynamoDB({
+var docClient = new AWS.DynamoDB.DocumentClient({
   region: "us-west-2",
   accessKeyId: process.env.REACT_APP_AWS_ACCESS_KEY_ID,
   secretAccessKey: process.env.REACT_APP_AWS_SECRET_ACCESS_KEY,
@@ -15,41 +15,40 @@ var params = {
 
 // promisify dynamodb.scan(param, callback(err, data)) => new function that instead of having a callback shape, returns a promise instead.
 
-let scanPromise = promisify(dynamodb.scan).bind(dynamodb)
+let scanPromise = promisify(docClient.scan).bind(docClient)
 
 //we expect this function to return a data object in the format of ./example.js
 export async function getViewers() {
+  //scan db for raw viewer data
   let scanResults = await scanPromise(params)
-}
-
-/* OLD CODE
-export async function getViewers() {
-  let results = await scanPromise(params)
-  console.log(results)
-  let convertedData = results["Items"].map((item) =>
-    AWS.DynamoDB.Converter.unmarshall(item)
-  )
-  let tiersFromDb = convertedData.map((item) => {
-    console.log(item.tier)
-    return item.tier
-  })
-  let uniqueTiers = Array.from(new Set(tiersFromDb)).sort()
+  let viewersArray = scanResults["Items"]
+  // grab unique tiers, sort alphabetically
+  let tiersFromResults = Array.from(
+    new Set(
+      viewersArray.map((viewer) => {
+        return viewer.tier
+      })
+    )
+  ).sort()
+  //pull S on top, because Tier lists are gor gamers.
   const checkForS = (item) => item === "s"
-  let sIndex = uniqueTiers.findIndex(checkForS)
-  indexChange(uniqueTiers, sIndex, 0)
-  let tiersToExport = {}
-  uniqueTiers.map((tier) => {
-    tiersToExport[tier] = []
+  let sIndex = tiersFromResults.findIndex(checkForS)
+  indexChange(tiersFromResults, sIndex, 0)
+  console.log(tiersFromResults)
+  let data = {}
+  tiersFromResults.forEach((tier) => {
+    data[tier] = []
   })
-  convertedData.map((viewer) => {
-    tiersToExport[viewer.tier].push(viewer)
+  console.log(data)
+  viewersArray.forEach((viewer) => {
+    data[viewer.tier].push(viewer)
   })
-
-  let localBoardstate = {
-    tiers: tiersToExport,
-  }
-  console.log(localBoardstate)
-  return localBoardstate
+  Object.keys(data).forEach((tier) => {
+    data[tier].sort((a, b) => {
+      return a.place - b.place
+    })
+  })
+  return data
 }
 
 function indexChange(arr, oldIndex, newIndex) {
@@ -63,19 +62,12 @@ function indexChange(arr, oldIndex, newIndex) {
   console.log(arr)
   return arr
 }
-*/
 
-var docClient = new AWS.DynamoDB.DocumentClient({
-  region: "us-west-2",
-  accessKeyId: process.env.REACT_APP_AWS_ACCESS_KEY_ID,
-  secretAccessKey: process.env.REACT_APP_AWS_SECRET_ACCESS_KEY,
-})
-
-export function pushViewer(viewerId, place, column) {
-  let parameters = {
+export function pushViewer(login, place, column) {
+  let viewerUpdateParams = {
     TableName: "viewers",
     Key: {
-      login: viewerId,
+      login: login,
     },
     UpdateExpression: "set place = :r, tier = :c",
     ExpressionAttributeValues: {
@@ -84,15 +76,15 @@ export function pushViewer(viewerId, place, column) {
     },
     ReturnValues: "UPDATED_NEW",
   }
-  docClient.update(parameters, function (err, data) {
+  docClient.update(viewerUpdateParams, function (err, data) {
     if (err) {
       console.error(
-        "Unable to update viewer",
+        "unable to update viwer",
         ". Error JSON:",
         JSON.stringify(err, null, 2)
       )
     } else {
-      console.log("Updateitem succeeded")
+      console.log("update item succeeded")
     }
   })
 }

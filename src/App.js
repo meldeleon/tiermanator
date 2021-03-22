@@ -1,6 +1,5 @@
 import React from "react"
 import Tiers from "./Tiers"
-import { data } from "./example.js"
 import { DragDropContext } from "react-beautiful-dnd"
 import { getViewers, pushViewer } from "./db.js"
 console.log(pushViewer)
@@ -8,13 +7,47 @@ class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      data,
+      data: new Object(),
     }
   }
-  /*async componentDidMount() {
-    this.setState(await getViewers())
+  async componentDidMount() {
+    let dbState = await getViewers()
+    console.log(dbState)
+    this.setState({ data: dbState })
   }
-  */
+  //what to do when a viewer gets dragged to a new destination
+  onDragEnd = (result) => {
+    let { destination, source, draggableId } = result
+    console.log(result)
+    let newState = { ...this.state }
+    let sourceArray = newState.data[source.droppableId]
+    let destinationArray = newState.data[destination.droppableId]
+    console.log(sourceArray, destinationArray)
+    //if dragging to new tier
+    if (source.droppableId !== destination.droppableId) {
+      //splice viewer to destination tier at destination index
+      destinationArray.splice(destination.index, 0, sourceArray[source.index])
+      //remove viewer from previous source tier.
+      sourceArray.splice(source.index, 1)
+
+      //update tier in viwer data object
+      newState.data[source.droppableId].tier = destination.droppableId
+    } //if dragging within same tier
+    else {
+      arrayMove(sourceArray, source.index, destination.index)
+    }
+    //reassign place as new index.
+    destinationArray.forEach((viewer, index) => {
+      viewer.place = index
+      pushViewer(viewer.login, index, viewer.tier)
+    })
+    sourceArray.forEach((viewer, index) => {
+      viewer.place = index
+      pushViewer(viewer.login, index, viewer.tier)
+    })
+    //push viwer change to DB
+    pushViewer(draggableId, destination.index, destination.droppableId)
+  }
   render() {
     return (
       <DragDropContext onDragEnd={this.onDragEnd}>
@@ -26,3 +59,9 @@ class App extends React.Component {
   }
 }
 export default App
+
+//helper functions for re-arranging viewers
+function arrayMove(arr, oldIndex, newIndex) {
+  arr.splice(newIndex + 1, 0, arr[oldIndex])
+  arr.splice(oldIndex, 1)
+}

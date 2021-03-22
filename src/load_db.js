@@ -3,6 +3,8 @@ var fs = require("fs")
 
 AWS.config.update({
   region: "us-west-2",
+  accessKeyId: process.env.REACT_APP_AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.REACT_APP_AWS_SECRET_ACCESS_KEY,
 })
 
 var docClient = new AWS.DynamoDB.DocumentClient()
@@ -11,10 +13,10 @@ console.log("Importing users into DynamoDB. Please wait.")
 let parameters = {
   TableName: "viewers",
   Item: {
-    login: "juiceboxhero",
+    login: "nobo0dy_",
     place: 0,
     profile_image_url:
-      "https://static-cdn.jtvnw.net/jtv_user_pictures/6892ddf7-e97e-4909-9e52-1184156e5058-profile_image-300x300.jpg",
+      "https://static-cdn.jtvnw.net/jtv_user_pictures/a1f41360-4a51-437a-a8fd-793a43c6527a-profile_image-300x300.png",
     tier: "unranked",
   },
 }
