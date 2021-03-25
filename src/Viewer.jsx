@@ -16,9 +16,6 @@ export function Viewer({ name, image, index }) {
           {...provided.draggableProps}
           {...provided.dragHandleProps}
         >
-          <div className="card-header">
-            <p className="card-header-title title is-5">{index}</p>
-          </div>
           <div className="card-content">
             <div className="media">
               <img className="card-image profile-pic" src={`${image}`}></img>

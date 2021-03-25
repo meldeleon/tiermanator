@@ -20,33 +20,38 @@ class App extends React.Component {
     let { destination, source, draggableId } = result
     console.log(result)
     let newState = { ...this.state }
-    let sourceArray = newState.data[source.droppableId]
-    let destinationArray = newState.data[destination.droppableId]
-    console.log(sourceArray, destinationArray)
-    //if dragging to new tier
-    if (source.droppableId !== destination.droppableId) {
-      //splice viewer to destination tier at destination index
-      destinationArray.splice(destination.index, 0, sourceArray[source.index])
-      //remove viewer from previous source tier.
-      sourceArray.splice(source.index, 1)
+    //check if destination exists
+    if (destination) {
+      let sourceArray = newState.data[source.droppableId]
+      let destinationArray = newState.data[destination.droppableId]
+      console.log(sourceArray, destinationArray)
+      //if dragging to new tier
+      if (source.droppableId !== destination.droppableId) {
+        //splice viewer to destination tier at destination index
+        destinationArray.splice(destination.index, 0, sourceArray[source.index])
+        //remove viewer from previous source tier.
+        sourceArray.splice(source.index, 1)
 
-      //update tier in viwer data object
-      newState.data[source.droppableId].tier = destination.droppableId
-    } //if dragging within same tier
-    else {
-      arrayMove(sourceArray, source.index, destination.index)
+        //update tier in viwer data object
+        newState.data[source.droppableId].tier = destination.droppableId
+      } //if dragging within same tier
+      else {
+        arrayMove(sourceArray, source.index, destination.index)
+      }
+      //reassign place as new index.
+      destinationArray.forEach((viewer, index) => {
+        viewer.place = index
+        viewer.tier = destination.droppableId
+        console.log(viewer)
+        pushViewer(viewer.login, index, viewer.tier)
+      })
+      sourceArray.forEach((viewer, index) => {
+        viewer.place = index
+        pushViewer(viewer.login, index, viewer.tier)
+      })
+    } else {
+      console.log("Destionation does not exist.")
     }
-    //reassign place as new index.
-    destinationArray.forEach((viewer, index) => {
-      viewer.place = index
-      pushViewer(viewer.login, index, viewer.tier)
-    })
-    sourceArray.forEach((viewer, index) => {
-      viewer.place = index
-      pushViewer(viewer.login, index, viewer.tier)
-    })
-    //push viwer change to DB
-    pushViewer(draggableId, destination.index, destination.droppableId)
   }
   render() {
     return (

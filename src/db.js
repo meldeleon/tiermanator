@@ -22,27 +22,38 @@ export async function getViewers() {
   //scan db for raw viewer data
   let scanResults = await scanPromise(params)
   let viewersArray = scanResults["Items"]
+  console.log(viewersArray)
   // grab unique tiers, sort alphabetically
-  let tiersFromResults = Array.from(
-    new Set(
-      viewersArray.map((viewer) => {
-        return viewer.tier
-      })
-    )
-  ).sort()
+  let staticTiers = ["s", "a", "b", "c", "d", "trash", "unranked"]
+  // let tiersFromResults = Array.from(
+  //   new Set(
+  //     viewersArray.map((viewer) => {
+  //       return viewer.tier
+  //     })
+  //   )
+  // ).sort()
   //pull S on top, because Tier lists are gor gamers.
-  const checkForS = (item) => item === "s"
-  let sIndex = tiersFromResults.findIndex(checkForS)
-  indexChange(tiersFromResults, sIndex, 0)
-  console.log(tiersFromResults)
+  // const checkForS = (item) => item === "s"
+  // let sIndex = tiersFromResults.findIndex(checkForS)
+  // indexChange(tiersFromResults, sIndex, 0)
+  // console.log(tiersFromResults)
   let data = {}
-  tiersFromResults.forEach((tier) => {
+  staticTiers.forEach((tier) => {
     data[tier] = []
   })
   console.log(data)
-  viewersArray.forEach((viewer) => {
-    data[viewer.tier].push(viewer)
+  // tiersFromResults.forEach((tier) => {
+  //   data[tier] = []
+  // })
+  viewersArray.forEach((x) => {
+    data[x.tier].push(x)
   })
+
+  console.log(data)
+
+  // viewersArray.forEach((viewer) => {
+  //   data[viewer.tier].push(viewer)
+  // })
   Object.keys(data).forEach((tier) => {
     data[tier].sort((a, b) => {
       return a.place - b.place
@@ -85,6 +96,7 @@ export function pushViewer(login, place, column) {
       )
     } else {
       console.log("update item succeeded")
+      console.log(viewerUpdateParams)
     }
   })
 }
