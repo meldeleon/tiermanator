@@ -3,8 +3,6 @@ import { Droppable } from "react-beautiful-dnd"
 import { Viewer } from "./Viewer"
 
 function Tier({ name, viewersInTier }) {
-  console.log(name)
-  console.log(viewersInTier)
   return (
     <Droppable droppableId={name} type="TIER">
       {(provided, snapshot) => (
@@ -13,7 +11,7 @@ function Tier({ name, viewersInTier }) {
           className="column is-centered"
           {...provided.droppableProps}
         >
-          <div className="title is-1 has-text-centered">{name}</div>
+          <div className="title is-1 has-text-centered">{name} tier</div>
           {viewersInTier.map((viewer) => {
             return (
               <Viewer

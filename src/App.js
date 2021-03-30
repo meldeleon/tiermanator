@@ -20,6 +20,7 @@ class App extends React.Component {
     let { destination, source, draggableId } = result
     console.log(result)
     let newState = { ...this.state }
+
     //check if destination exists
     if (destination) {
       let sourceArray = newState.data[source.droppableId]
@@ -34,21 +35,31 @@ class App extends React.Component {
 
         //update tier in viwer data object
         newState.data[source.droppableId].tier = destination.droppableId
+        //reassign place as new index.
+        destinationArray.forEach((viewer, index) => {
+          viewer.place = index
+          viewer.tier = destination.droppableId
+          console.log(viewer)
+          pushViewer(viewer.login, index, viewer.tier)
+        })
+        sourceArray.forEach((viewer, index) => {
+          viewer.place = index
+          pushViewer(viewer.login, index, viewer.tier)
+        })
       } //if dragging within same tier
       else {
-        arrayMove(sourceArray, source.index, destination.index)
+        //if bottom
+        if (source.index + 1 === sourceArray.length) {
+          console.log("bottom touched")
+          arrayMove(sourceArray, source.index, destination.index, 0, 1)
+        } else {
+          arrayMove(sourceArray, source.index, destination.index, 1, 0)
+          sourceArray.forEach((viewer, index) => {
+            viewer.place = index
+            pushViewer(viewer.login, index, viewer.tier)
+          })
+        }
       }
-      //reassign place as new index.
-      destinationArray.forEach((viewer, index) => {
-        viewer.place = index
-        viewer.tier = destination.droppableId
-        console.log(viewer)
-        pushViewer(viewer.login, index, viewer.tier)
-      })
-      sourceArray.forEach((viewer, index) => {
-        viewer.place = index
-        pushViewer(viewer.login, index, viewer.tier)
-      })
     } else {
       console.log("Destionation does not exist.")
     }
@@ -66,7 +77,7 @@ class App extends React.Component {
 export default App
 
 //helper functions for re-arranging viewers
-function arrayMove(arr, oldIndex, newIndex) {
-  arr.splice(newIndex + 1, 0, arr[oldIndex])
-  arr.splice(oldIndex, 1)
+function arrayMove(arr, oldIndex, newIndex, offset1, offset2) {
+  arr.splice(newIndex + offset1, 0, arr[oldIndex])
+  arr.splice(oldIndex + offset2, 1)
 }

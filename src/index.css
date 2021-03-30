@@ -3,7 +3,7 @@ body,
 #app,
 #app > div {
   height: 100%;
-  background-color: rgb(245, 224, 240) !important;
+  background-color: rgb(230, 242, 255) !important;
 }
 body {
   margin: 0;
@@ -15,7 +15,7 @@ body {
   font-size: small !important;
 }
 .card-header {
-  background-color: rgb(238, 238, 238) !important ;
+  background-color: rgb(230, 242, 255) !important ;
 }
 .code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",

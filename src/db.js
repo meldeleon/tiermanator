@@ -25,35 +25,18 @@ export async function getViewers() {
   console.log(viewersArray)
   // grab unique tiers, sort alphabetically
   let staticTiers = ["s", "a", "b", "c", "d", "trash", "unranked"]
-  // let tiersFromResults = Array.from(
-  //   new Set(
-  //     viewersArray.map((viewer) => {
-  //       return viewer.tier
-  //     })
-  //   )
-  // ).sort()
-  //pull S on top, because Tier lists are gor gamers.
-  // const checkForS = (item) => item === "s"
-  // let sIndex = tiersFromResults.findIndex(checkForS)
-  // indexChange(tiersFromResults, sIndex, 0)
-  // console.log(tiersFromResults)
+
   let data = {}
   staticTiers.forEach((tier) => {
     data[tier] = []
   })
   console.log(data)
-  // tiersFromResults.forEach((tier) => {
-  //   data[tier] = []
-  // })
+
   viewersArray.forEach((x) => {
     data[x.tier].push(x)
   })
 
   console.log(data)
-
-  // viewersArray.forEach((viewer) => {
-  //   data[viewer.tier].push(viewer)
-  // })
   Object.keys(data).forEach((tier) => {
     data[tier].sort((a, b) => {
       return a.place - b.place
