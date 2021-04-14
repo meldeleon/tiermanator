@@ -37,8 +37,3 @@ body {
   background-position: center center;
   background-size: cover;
 }
-
-.rows {
-  display: flex;
-  flex-direction: column;
-}
