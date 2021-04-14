@@ -23,19 +23,22 @@ body {
 }
 
 .viewer-name {
-  padding-left: 2px;
+  padding: 20px;
 }
 .index-title {
   padding: 10px;
 }
 .profile-pic {
   display: inline-block;
-  width: 28px;
-  height: 28px;
+  width: 64px;
+  height: 64px;
   border-radius: 50%;
-  border-style: solid;
-  border-width: 1px;
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
+}
+
+.rows {
+  display: flex;
+  flex-direction: column;
 }
